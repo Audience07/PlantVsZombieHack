@@ -18,25 +18,12 @@ int main() {
 	}
 
 
-
-	//读取阳光
-	/*while (true)
-	{
-		std::cout << xShowSunshine(hProcess) << std::endl;
-		Sleep(100);
-		system("CLS");
-	}*/
+	//获取exe的基址
+	LPVOID ExeBase = (BYTE*)GetBaseAddress(ModuleName) + 0x3578F8;
 
 
 	//修改阳光
-	/*if ((xChangeSunshine(hProcess,500))==WriteMemoryError) {
-		std::cout << "写入内存失败";
-		CloseHandle(hProcess);
-		return WriteMemoryError;
-	}*/
-
-	
-	xGetModuleAddr(hProcess, ModuleName);
+	xChangeSunshine(hProcess, ExeBase, 3000);
 
 
 
