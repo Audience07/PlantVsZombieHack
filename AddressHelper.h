@@ -1,6 +1,7 @@
 #pragma once
 #include "stdafx.h"
 
+//废弃
 LPVOID xGetProcessImageBase(HANDLE hProcess, LPCSTR moduleName)//dwProcessId就是程序的标识符
 {
     LPVOID pProcessImageBase = NULL;
@@ -72,11 +73,13 @@ LPVOID xGetModuleAddr(HANDLE hProcess, const TCHAR* ModuleName) {
 }
 
 
-//获取模块地址
-LPSTR GetBaseAddress(LPCSTR ModuleName) {
-    HMODULE hModule = GetModuleHandle(ModuleName);
-    if (hModule == NULL) {
-        return NULL; // 获取失败
+
+//获取最终地址
+LPVOID xGetFinalAddr(IN HANDLE hProcess, IN LPVOID BaseAddr, std::vector<DWORD> Offset) {
+    LPVOID Address = BaseAddr;
+    //若直接加偏移加到最后一个，就直接把数据的值读取出来了，所以这里要减1，得到偏移后的地址
+    for (int i = 0; i < Offset.size() - 1; i++) {
+        ReadProcessMemory(hProcess, (LPCVOID)((BYTE*)Address + Offset[i]), &Address, sizeof(DWORD), NULL);
     }
-    return (LPSTR)hModule;
+    return (BYTE*)Address + SunshineBaseAddress_offset.back();
 }
