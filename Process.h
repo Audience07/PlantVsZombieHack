@@ -41,9 +41,9 @@ HANDLE xOpenProcessByPcName(IN LPCSTR PcName) {
 	if (!dwProcessID) {
 		return NULL;
 	}
-	HANDLE hProcessID = OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwProcessID);
-	if (!hProcessID) {
+	HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwProcessID);
+	if (!hProcess) {
 		return NULL;
 	}
-	return hProcessID;
+	return hProcess;
 }
